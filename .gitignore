@@ -6,6 +6,9 @@
 # Rider settings
 .idea
 
+# VSCode settings
+.vscode/
+
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
