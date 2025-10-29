@@ -12,4 +12,4 @@
 ## 💡 Branching Strategy
 - `main` → stable builds
 - `dev` → main development
-- feature branches: `dev/player-movement`, `dev/enemy-ai`, etc.
+- feature branches: `dev_player-movement`, `dev_enemy-ai`, etc.
