@@ -60,10 +60,6 @@ namespace Core.Enemy_Logic
             stateManager?.SwitchState(stateManager.EnemyDeathState);
         }
         
-        /*--------------------------
-         * End Public API
-         */
-        
         public bool IsDead => currentHealth <= 0f;
         
     }

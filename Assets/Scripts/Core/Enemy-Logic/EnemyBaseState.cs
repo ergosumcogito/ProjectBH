@@ -1,7 +1,7 @@
 ﻿namespace Core.Enemy_Logic
 {
     /*
-     * The abstract Enemy BaseState basically serves as abstract State of the specified States e.g. Idle, Chase, Death etc.
+     * The abstract Enemy BaseState basically serves as abstract State of the specified States --> here : Chase, Attack, Death
      */
     public abstract class EnemyBaseState
     {
