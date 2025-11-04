@@ -1,6 +1,6 @@
 ﻿namespace Core.Enemy_Logic
 {
-    public class BigBossAbstract : EnemyAbstract
+    public  abstract class BigBossAbstract : EnemyAbstract
     {
         //tbd
     }

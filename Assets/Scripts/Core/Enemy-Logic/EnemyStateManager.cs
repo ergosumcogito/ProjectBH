@@ -7,7 +7,7 @@ namespace Core.Enemy_Logic
      */
     public class EnemyStateManager : MonoBehaviour
     {
-        public EnemyAbstract enemy; // Reference to current enemy -> certainly children of enemy
+        public EnemyAbstract enemy; // Reference to current enemy -> children of enemy
         
         public EnemyBaseState currentState;
         public EnemyBaseState EnemyAttackState = new EnemyAttackState();

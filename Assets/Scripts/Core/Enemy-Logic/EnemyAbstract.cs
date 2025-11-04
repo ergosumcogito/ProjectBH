@@ -2,7 +2,7 @@
 
 namespace Core.Enemy_Logic
 {
-    public class EnemyAbstract : MonoBehaviour
+    public abstract class EnemyAbstract : MonoBehaviour
     {
         protected EnemyStateManager stateManager;
         
@@ -20,8 +20,26 @@ namespace Core.Enemy_Logic
         
         protected virtual void Awake()
         {
-            currentHealth = MaxHealth;
             stateManager = GetComponent<EnemyStateManager>(); // get the current child instance of enemy
+            currentHealth = MaxHealth;
+
+            // Null-check => Ensures this GameObject has EnemyStateManager attached in Unity
+             
+            if (stateManager == null)
+            {
+                Debug.LogError($"{name} has no EnemyStateManager attached!");
+            }
+            
+            // Check if base stats are set in children classes
+
+            if (MaxHealth <= 0 || MoveSpeed <= 0 || AttackPower <= 0)
+            {
+                Debug.LogWarning(
+                    $"{name} has uninitialized base stats!" +
+                    $"[MaxHealth={MaxHealth}, MoveSpeed={MoveSpeed},AttackPower={AttackPower}]" +
+                    $"Check child class!");
+            }
+            
         }
 
         protected virtual void Start()
