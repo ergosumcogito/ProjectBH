@@ -9,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public void setInputReader(InputReader reader)
+    {
+        inputReader = reader;
+    }
+    
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
