@@ -20,7 +20,7 @@ namespace Core.Enemy_Logic
             }
             float distance = Vector2.Distance(enemy.transform.position, enemy.Player.position);
 
-            if (distance < 1.5f)
+            if (distance > 1.5f)
             {
                 manager.SwitchState(manager.EnemyChaseState);
                 return;

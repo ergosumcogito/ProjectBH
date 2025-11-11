@@ -44,6 +44,16 @@ namespace Core.Enemy_Logic
 
         protected virtual void Start()
         {
+            // Player tagged in Unity as 'Player' -> find automatically the player if tagged
+            if (Player == null)
+            {
+                Player = GameObject.FindWithTag("Player")?.transform;
+            }
+
+            if (Player == null)
+            {
+                Debug.LogError($"{name}: No Player found in scene! Make sure the Player has been tagged");
+            }
             Init(Player);
         }
          
