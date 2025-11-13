@@ -16,6 +16,7 @@ public class HealthPresenter : MonoBehaviour
         StartCoroutine(FakeDamage());
     }
 
+    // Method for testing HP change
     private IEnumerator FakeDamage()
     {
         while (currentHealth > 0)
