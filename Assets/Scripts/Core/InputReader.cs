@@ -32,7 +32,7 @@ public class InputReader : MonoBehaviour
     
     private void Update()
     {
-        Debug.Log(MovementInput); // TODO Debug
+       // Debug.Log(MovementInput); // TODO Debug
     }
 
 }
