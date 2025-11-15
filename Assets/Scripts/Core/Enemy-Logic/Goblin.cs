@@ -9,6 +9,5 @@
             MaxHealth = 50f;
             base.Awake(); // currentHealth already declared in the EnemyAbstract
         }
-        
     }
 }
