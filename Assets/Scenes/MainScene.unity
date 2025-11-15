@@ -641,12 +641,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e066a441ce65e64eb8a8af152029175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 5061799870063929551, guid: ccb91f2d36f49d246a065eb08eafe3f7, type: 3}
   enemyPrefab: {fileID: 294847652466573307, guid: e79c64cb1b8db344bafd307926201efe, type: 3}
-  spawnInterval: 0.4
-  maxEnemies: 10
-  minSpawnDistance: 5
-  maxSpawnDistance: 15
+  maxEnemies: 15
+  spawnInterval: 0.5
+  minSpawnDistance: 3
 --- !u!4 &1410175630
 Transform:
   m_ObjectHideFlags: 0
@@ -656,7 +654,7 @@ Transform:
   m_GameObject: {fileID: 1410175628}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
