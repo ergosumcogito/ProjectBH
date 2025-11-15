@@ -9,10 +9,12 @@ public class EnemySpawner : MonoBehaviour
     [Header("Spawn Settings")] public int maxEnemies = 15;
     public float spawnInterval = 0.5f;
 
-    [Tooltip("Spawn at least x tiles away from player")]
+    //TODO: adjust depending on dynamic level size
+    //at least 1f so enemies can't spawn on the player, less than 6 so enemies don't spawn on the border
+    [Range(1f, 5.9f)] [Tooltip("Spawn at least x tiles away from player")]
     public float minSpawnDistance = 3f;
 
-    //TODO: get size of map dynamically
+    //TODO: get size of level dynamically
     private const float LevelWidth = 13 - 1;
     private const float LevelHeight = 13 - 1;
 
