@@ -9,6 +9,9 @@ public class EnemySpawner : MonoBehaviour
     [Header("Spawn Settings")] public int maxEnemies = 15;
     public float spawnInterval = 0.5f;
 
+    [Tooltip("Spawn at least x tiles away from player")]
+    public float minSpawnDistance = 3f;
+
     //TODO: get size of map dynamically
     private const float LevelWidth = 13 - 1;
     private const float LevelHeight = 13 - 1;
@@ -37,19 +40,45 @@ public class EnemySpawner : MonoBehaviour
         _spawnTimer = 0f;
     }
 
-
-    //TODO: implement some kinda spawn distance, so enemies don't spawn too close to the player
     private void SpawnEnemy()
     {
         if (!enemyPrefab) return;
+        var player = GameObject.FindWithTag("Player")?.transform;
+        if (player == null) return;
 
-        var x = Random.Range(0, LevelWidth);
-        var y = Random.Range(0, LevelHeight);
+        var spawnPos = GetSpawnPoint(player.position);
 
-        var pos = new Vector3(x, y, 0f);
-
-        var enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
+        var enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         _activeEnemies.Add(enemy);
+    }
+
+    //creates a square around player that prevents enemies from spawning within, returns enemy spawn point
+    private Vector2 GetSpawnPoint(Vector2 playerPos)
+    {
+        for (var i = 0; i < 50; i++)
+        {
+            var randomEnemySpawnPoint = GetRandomSpawnPoint();
+
+            if (!IsInSafeZone(playerPos, randomEnemySpawnPoint)) return randomEnemySpawnPoint;
+        }
+
+        //fallback if no valid spawn is found
+        return new Vector2(0, 0);
+    }
+
+    private bool IsInSafeZone(Vector2 playerPos, Vector2 enemySpawnPos)
+    {
+        return (Mathf.Abs(playerPos.x - enemySpawnPos.x) < minSpawnDistance &&
+                Mathf.Abs(playerPos.y - enemySpawnPos.y) < minSpawnDistance);
+    }
+
+    //for enemy spawn points
+    private static Vector2 GetRandomSpawnPoint()
+    {
+        var x = Random.Range(0f, LevelWidth);
+        var y = Random.Range(0f, LevelHeight);
+
+        return new Vector2(x, y);
     }
 
     //these three are to be used by other systems to control spawning
