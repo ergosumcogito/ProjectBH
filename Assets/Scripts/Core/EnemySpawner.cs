@@ -4,19 +4,18 @@ using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Enemy")] public GameObject enemyPrefab;
+    public GameObject enemyPrefab;
 
-    [Header("Spawn Settings")] public int maxEnemies = 15;
+    public int maxEnemies = 15;
     public float spawnInterval = 0.5f;
 
-    //TODO: adjust depending on dynamic level size
-    //at least 1f so enemies can't spawn on the player, less than 6 so enemies don't spawn on the border
-    [Range(1f, 5.9f)] [Tooltip("Spawn at least x tiles away from player")]
     public float minSpawnDistance = 3f;
+    public float maxSpawnDistance = 7f;
 
-    //TODO: get size of level dynamically
-    private const float LevelWidth = 13 - 1;
-    private const float LevelHeight = 13 - 1;
+    private Transform _player;
+    private LevelEditor _levelEditor;
+    private float LevelWidth => _levelEditor.Width - 1;
+    private float LevelHeight => _levelEditor.Length - 1;
 
     private float _spawnTimer;
     private bool _isSpawning;
@@ -33,6 +32,12 @@ public class EnemySpawner : MonoBehaviour
     {
         if (!_isSpawning) return;
 
+        if (!_player || !_levelEditor)
+        {
+            GetInstances();
+            return;
+        }
+
         _activeEnemies.RemoveAll(e => e == null);
 
         _spawnTimer += Time.deltaTime;
@@ -42,13 +47,17 @@ public class EnemySpawner : MonoBehaviour
         _spawnTimer = 0f;
     }
 
+    private void GetInstances()
+    {
+        _player = GameObject.FindWithTag("Player")?.transform;
+        _levelEditor = FindFirstObjectByType<LevelEditor>();
+    }
+
     private void SpawnEnemy()
     {
         if (!enemyPrefab) return;
-        var player = GameObject.FindWithTag("Player")?.transform;
-        if (player == null) return;
 
-        var spawnPos = GetSpawnPoint(player.position);
+        var spawnPos = GetSpawnPoint(_player.position);
 
         var enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         _activeEnemies.Add(enemy);
@@ -57,25 +66,26 @@ public class EnemySpawner : MonoBehaviour
     //creates a square around player that prevents enemies from spawning within, returns enemy spawn point
     private Vector2 GetSpawnPoint(Vector2 playerPos)
     {
-        for (var i = 0; i < 50; i++)
+        for (var i = 0; i < 100; i++)
         {
-            var randomEnemySpawnPoint = GetRandomSpawnPoint();
+            var randomEnemySpawnPoint = GetRandomCoordinates();
 
-            if (!IsInSafeZone(playerPos, randomEnemySpawnPoint)) return randomEnemySpawnPoint;
+            if (!IsInInvalidDistance(playerPos, randomEnemySpawnPoint)) return randomEnemySpawnPoint;
         }
 
         //fallback if no valid spawn is found
         return new Vector2(0, 0);
     }
 
-    private bool IsInSafeZone(Vector2 playerPos, Vector2 enemySpawnPos)
+    private bool IsInInvalidDistance(Vector2 playerPos, Vector2 enemySpawnPos)
     {
-        return (Mathf.Abs(playerPos.x - enemySpawnPos.x) < minSpawnDistance &&
-                Mathf.Abs(playerPos.y - enemySpawnPos.y) < minSpawnDistance);
+        var distance = Vector2.Distance(playerPos, enemySpawnPos);
+
+        return distance < minSpawnDistance || distance > maxSpawnDistance;
     }
 
     //for enemy spawn points
-    private static Vector2 GetRandomSpawnPoint()
+    private Vector2 GetRandomCoordinates()
     {
         var x = Random.Range(0f, LevelWidth);
         var y = Random.Range(0f, LevelHeight);

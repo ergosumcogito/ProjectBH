@@ -645,6 +645,7 @@ MonoBehaviour:
   maxEnemies: 15
   spawnInterval: 0.5
   minSpawnDistance: 3
+  maxSpawnDistance: 7
 --- !u!4 &1410175630
 Transform:
   m_ObjectHideFlags: 0

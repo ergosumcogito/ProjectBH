@@ -1,0 +1,4 @@
+#minMaxSlider Label {
+    min-width: 15%;
+    -unity-text-align: middle-center;
+}
