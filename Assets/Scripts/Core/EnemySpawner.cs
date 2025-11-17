@@ -9,8 +9,8 @@ public class EnemySpawner : MonoBehaviour
     public int maxEnemies = 15;
     public float spawnInterval = 0.5f;
 
-    public float minSpawnDistance = 3f;
-    public float maxSpawnDistance = 7f;
+    public int minSpawnDistance = 3;
+    public int maxSpawnDistance = 7;
 
     private Transform _player;
     private LevelEditor _levelEditor;

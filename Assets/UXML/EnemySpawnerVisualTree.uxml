@@ -10,9 +10,9 @@
         <ui:Label text="Spawn Distance&#10;" name="secondTitleLabel" style="-unity-text-align: upper-left; font-size: 14px; -unity-font-style: bold; margin-bottom: 5px;" />
         <ui:VisualElement name="SpawnDistanceProps" style="flex-grow: 1; flex-direction: row; font-size: 12px;">
             <ui:Label text="Min" style="-unity-text-align: middle-left;" />
-            <uie:PropertyField name="minPropField" binding-path="minSpawnDistance" style="flex-grow: 1; max-width: none;" />
+            <uie:IntegerField name="minPropField" binding-path="minSpawnDistance" style="flex-grow: 1; max-width: none;" />
             <ui:Label text="Max" style="-unity-text-align: middle-left; margin-left: 30px;" />
-            <uie:PropertyField name="maxPropField" binding-path="maxSpawnDistance" style="flex-shrink: 0; flex-grow: 1; max-width: none;" />
+            <uie:IntegerField name="maxPropField" binding-path="maxSpawnDistance" style="flex-shrink: 0; flex-grow: 1; max-width: none;" />
         </ui:VisualElement>
         <ui:MinMaxSlider value="10,12" low-limit="-10" high-limit="40" name="minMaxSlider" />
     </ui:VisualElement>

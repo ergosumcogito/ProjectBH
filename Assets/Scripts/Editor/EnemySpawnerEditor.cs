@@ -14,8 +14,8 @@ public class EnemySpawnerEditor : Editor
         VisualTree.CloneTree(root);
 
         //initializing elements
-        var minPropField = root.Q<PropertyField>("minPropField");
-        var maxPropField = root.Q<PropertyField>("maxPropField");
+        var minPropField = root.Q<IntegerField>("minPropField");
+        var maxPropField = root.Q<IntegerField>("maxPropField");
         var minMaxSlider = root.Q<MinMaxSlider>("minMaxSlider");
 
         //removing premade labels
@@ -44,9 +44,9 @@ public class EnemySpawnerEditor : Editor
         minMaxSlider.highLimit = levelMax;
 
         //setting min and max value for slider
-        minMaxSlider.value = new Vector2(minProp.floatValue, maxProp.floatValue);
+        minMaxSlider.value = new Vector2(minProp.intValue, maxProp.intValue);
 
-        //when slider changes, update prop fields
+        //sets props to value of slider
         minMaxSlider.RegisterValueChangedCallback(evt =>
         {
             serializedObject.Update();
@@ -56,63 +56,73 @@ public class EnemySpawnerEditor : Editor
 
             ClampMinMax(ref min, ref max, levelMax);
 
-            minProp.floatValue = min;
-            maxProp.floatValue = max;
+            minProp.intValue = min;
+            maxProp.intValue = max;
 
             minMaxSlider.SetValueWithoutNotify(new Vector2(min, max));
+            minPropField.SetValueWithoutNotify(min);
+            maxPropField.SetValueWithoutNotify(max);
+
             serializedObject.ApplyModifiedProperties();
         });
 
-        //when min prop field changes, update slider
-        minPropField.RegisterCallback<SerializedPropertyChangeEvent>(evt =>
-        {
-            serializedObject.Update();
-
-            var min = Mathf.RoundToInt(minProp.floatValue);
-            var max = Mathf.RoundToInt(maxProp.floatValue);
-
-            ClampMinMax(ref min, ref max, levelMax);
-
-            minProp.floatValue = min;
-            maxProp.floatValue = max;
-
-            minMaxSlider.SetValueWithoutNotify(new Vector2(min, max));
-            serializedObject.ApplyModifiedProperties();
-        });
-
-        //when max prop field changes, update slider
-        maxPropField.RegisterCallback<SerializedPropertyChangeEvent>(evt =>
-        {
-            serializedObject.Update();
-
-            var min = Mathf.RoundToInt(minProp.floatValue);
-            var max = Mathf.RoundToInt(maxProp.floatValue);
-
-            ClampMinMax(ref min, ref max, levelMax);
-
-            minProp.floatValue = min;
-            maxProp.floatValue = max;
-
-            minMaxSlider.SetValueWithoutNotify(new Vector2(min, max));
-            serializedObject.ApplyModifiedProperties();
-        });
+        SetupField(minPropField);
+        SetupField(maxPropField);
 
         return root;
+
+        //when props are not focused anymore, update their value if illegal
+        void SetupField(IntegerField field)
+        {
+            field.RegisterCallback<BlurEvent>(evt =>
+            {
+                ApplyFieldClamp(minPropField, maxPropField, minProp, maxProp, minMaxSlider, levelMax);
+            });
+
+            field.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.keyCode is KeyCode.Return or KeyCode.KeypadEnter)
+                {
+                    ApplyFieldClamp(minPropField, maxPropField, minProp, maxProp, minMaxSlider, levelMax);
+                }
+            });
+        }
     }
 
-    //limits for slider
+    //limits for values
+    //min >= 1
+    //max <= levelMax
+    //min can't reach max
+    //max can't drop below min - 1
     private static void ClampMinMax(ref int min, ref int max, int levelMax)
     {
-        if (min < 1) min = 1;
-        if (max > levelMax) max = levelMax;
+        min = Mathf.Clamp(min, 1, levelMax - 1);
+        max = Mathf.Clamp(max, min + 1, levelMax);
+    }
 
-        if (min > levelMax - 1)
-            min = levelMax - 1;
+    //checks whether fields have legal values, if not, clamps
+    private void ApplyFieldClamp(
+        IntegerField minPropField,
+        IntegerField maxPropField,
+        SerializedProperty minProp,
+        SerializedProperty maxProp,
+        MinMaxSlider slider,
+        int levelMax)
+    {
+        serializedObject.Update();
 
-        if (max < min + 1)
-            max = min + 1;
+        var min = minPropField.value;
+        var max = maxPropField.value;
 
-        if (max > levelMax)
-            max = levelMax;
+        ClampMinMax(ref min, ref max, levelMax);
+
+        minProp.intValue = min;
+        maxProp.intValue = max;
+
+        slider.SetValueWithoutNotify(new Vector2(min, max));
+        minPropField.SetValueWithoutNotify(min);
+        maxPropField.SetValueWithoutNotify(max);
+
+        serializedObject.ApplyModifiedProperties();
     }
 }
