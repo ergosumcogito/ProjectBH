@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     public int maxEnemies = 15;
     public float spawnInterval = 0.5f;
+    public event System.Action<int> OnEnemyCountChanged;
 
     public int minSpawnDistance = 3;
     public int maxSpawnDistance = 7;
@@ -21,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
     private bool _isSpawning;
 
     private readonly List<GameObject> _activeEnemies = new();
+    public int CurrentEnemyCount => _activeEnemies.Count(e => e != null);
 
     //automatic start; for testing purposes, only temporary
     private void Start()
@@ -61,6 +63,8 @@ public class EnemySpawner : MonoBehaviour
 
         var enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
         _activeEnemies.Add(enemy);
+
+        OnEnemyCountChanged?.Invoke(CurrentEnemyCount);
     }
 
     //creates a square around player that prevents enemies from spawning within, returns enemy spawn point
@@ -116,5 +120,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         _activeEnemies.Clear();
+        
+        OnEnemyCountChanged?.Invoke(CurrentEnemyCount);
     }
 }

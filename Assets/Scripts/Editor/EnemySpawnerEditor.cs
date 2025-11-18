@@ -10,6 +10,8 @@ public class EnemySpawnerEditor : Editor
 
     public override VisualElement CreateInspectorGUI()
     {
+        var spawner = (EnemySpawner)target;
+
         var root = new VisualElement();
         VisualTree.CloneTree(root);
 
@@ -17,6 +19,13 @@ public class EnemySpawnerEditor : Editor
         var minPropField = root.Q<IntegerField>("minPropField");
         var maxPropField = root.Q<IntegerField>("maxPropField");
         var minMaxSlider = root.Q<MinMaxSlider>("minMaxSlider");
+
+        //progress bar element, and element that renders the bar of the progress bar
+        var progressBar = root.Q<ProgressBar>("spawnerTotalLoad");
+        var progressFill = progressBar.Q<VisualElement>(className: "unity-progress-bar__progress");
+
+        UpdateProgressBar(spawner.CurrentEnemyCount);
+        spawner.OnEnemyCountChanged += UpdateProgressBar;
 
         //removing premade labels
         minPropField.label = "";
@@ -69,6 +78,9 @@ public class EnemySpawnerEditor : Editor
         SetupField(minPropField);
         SetupField(maxPropField);
 
+        progressBar.lowValue = 0;
+        progressBar.highValue = spawner.maxEnemies;
+
         return root;
 
         //when props are not focused anymore, update their value if illegal
@@ -86,6 +98,21 @@ public class EnemySpawnerEditor : Editor
                     ApplyFieldClamp(minPropField, maxPropField, minProp, maxProp, minMaxSlider, levelMax);
                 }
             });
+        }
+        
+        //updates values of progress bar and color accordingly
+        void UpdateProgressBar(int count)
+        {
+            float max = spawner.maxEnemies;
+            var modifier = count / max;
+
+            progressBar.value = count;
+            progressBar.title = $"{count} / {max}";
+
+            var speed = Mathf.Pow(modifier, 2f);
+            var barColor = Color.Lerp(Color.green, Color.red, speed);
+
+            progressFill.style.backgroundColor = barColor;
         }
     }
 
