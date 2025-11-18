@@ -6,8 +6,7 @@ public class LevelEditor : MonoBehaviour
     [SerializeField] private int width = 10;
     [SerializeField] private int length = 10;
     [SerializeField] private float tileSize = 1f;
-
-
+    
     [Header("Tile Prefab")]
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject borderPrefab;
@@ -16,7 +15,9 @@ public class LevelEditor : MonoBehaviour
     [Header("Generation Options")]
     [SerializeField] private bool generateOnStart = true;
 
-
+    public int Width => width;
+    public int Length => length;
+    
     private void Start()
     {
         if (generateOnStart)
