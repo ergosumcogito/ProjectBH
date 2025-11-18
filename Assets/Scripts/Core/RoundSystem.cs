@@ -16,12 +16,7 @@ public class RoundSystem : MonoBehaviour
     private RoundState currentState = RoundState.Inactive;
     private float timer;
     private Coroutine roundCoroutine;
-
-    private void Start()
-    {
-        StartRound();
-    }
-
+    
     public void StartRound()
     {
         if (currentState == RoundState.Running) return;
