@@ -13,7 +13,7 @@ public class LevelEditor : MonoBehaviour
 
 
     [Header("Generation Options")]
-    [SerializeField] private bool generateOnStart = true;
+    [SerializeField] private bool generateOnStart = false;
 
     public int Width => width;
     public int Length => length;
@@ -23,9 +23,18 @@ public class LevelEditor : MonoBehaviour
         if (generateOnStart)
             GenerateLevel();
     }
+    
+    // Despawning a level
+    public void ClearLevel()
+    {
+        foreach (Transform child in transform)
+            Destroy(child.gameObject);
+    }
 
     public void GenerateLevel()
     {
+        ClearLevel();
+        
         //Check if TilePrefab or BorderPrefab equals null
         if (tilePrefab == null || borderPrefab == null)
         {
