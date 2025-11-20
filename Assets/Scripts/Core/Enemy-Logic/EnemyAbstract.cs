@@ -2,21 +2,29 @@
 
 namespace Core.Enemy_Logic
 {
+    [RequireComponent(typeof(BoxCollider2D))] // every game object with this script is required to have a box colider
     public abstract class EnemyAbstract : MonoBehaviour
     {
         protected EnemyStateManager stateManager;
         
         // Stats must be implemented by the children classes - attributes loaded with default values
         [Header("Base Stats")] 
-        public  float MaxHealth{get; protected set; } = -1f;
-        public  float MoveSpeed{get; protected set; } = -1f;
-        public  float AttackPower{get; protected set; } = -1f;
+        
+
+        protected float MoveSpeed=-1f;
+        protected float MaxHealth=-1f;
+        protected float AttackPower=-1f;
+
+        //Protected field should be visable for othe classes in the folder e.g. State Machine with States
+        public float moveSpeed => MoveSpeed;
+        public float maxHealth => MaxHealth;
+        public float attackPower => AttackPower;
+        
 
         [Header("References")] 
         public Transform Player { get; protected set; } // is used by the Spawner
 
         protected float currentHealth;
-        
         
         protected virtual void Awake()
         {
@@ -39,8 +47,8 @@ namespace Core.Enemy_Logic
                     $"[MaxHealth={MaxHealth}, MoveSpeed={MoveSpeed},AttackPower={AttackPower}]" +
                     $"Check child class!");
             }
-            
         }
+        
 
         protected virtual void Start()
         {
