@@ -16,12 +16,7 @@ public class RoundSystem : MonoBehaviour
     private RoundState currentState = RoundState.Inactive;
     private float timer;
     private Coroutine roundCoroutine;
-
-    private void Start()
-    {
-        StartRound();
-    }
-
+    
     public void StartRound()
     {
         if (currentState == RoundState.Running) return;
@@ -29,7 +24,7 @@ public class RoundSystem : MonoBehaviour
         timer = _roundData.duration;
         currentState = RoundState.Running;
 
-        RoundEvents.Log("Round started! Duration: " + timer + "s");
+       // RoundEvents.Log("Round started! Duration: " + timer + "s"); // TODO debug log
         RoundEvents.OnRoundStart?.Invoke(timer);
 
         // Start timer with coroutine
@@ -43,7 +38,7 @@ public class RoundSystem : MonoBehaviour
             if (Time.timeScale > 0) // Check for pause
             {
                 timer -= Time.deltaTime;
-                RoundEvents.Log($"Round Timer: {timer:F1}");
+                // RoundEvents.Log($"Round Timer: {timer:F1}"); // TODO debug log
             }
             yield return null;
         }
