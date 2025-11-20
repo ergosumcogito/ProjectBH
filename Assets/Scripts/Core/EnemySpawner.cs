@@ -22,13 +22,9 @@ public class EnemySpawner : MonoBehaviour
     private bool _isSpawning;
 
     private readonly List<GameObject> _activeEnemies = new();
-
-    //automatic start; for testing purposes, only temporary
-    private void Start()
-    {
-        StartSpawning();
-    }
-
+    
+    
+    
     private void Update()
     {
         if (!_isSpawning) return;
