@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Enemy_Logic
 {
@@ -25,6 +26,7 @@ namespace Core.Enemy_Logic
         public Transform Player { get; protected set; } // is used by the Spawner
 
         protected float currentHealth;
+        [FormerlySerializedAs("playerPlayer")] [FormerlySerializedAs("playerHealth")] public PlayerObject playerObjectPlayerObject;
         
         protected virtual void Awake()
         {
@@ -98,6 +100,15 @@ namespace Core.Enemy_Logic
         
         public bool IsDead => currentHealth <= 0f;
         
-    }
-    
+        
+    public virtual void OnCollisionEnter2d(Collision2D collision)
+{
+    if(collision.gameObject.tag.Equals("Player"))
+    { 
+        playerObjectPlayerObject=collision.gameObject.GetComponent<PlayerObject>();
+        playerObjectPlayerObject.TakeDamage(AttackPower);
+        }
+        
 }
+} }
+    
