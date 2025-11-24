@@ -19,32 +19,27 @@ public class EnemySpawnerEditor : Editor
         var minPropField = root.Q<IntegerField>("minPropField");
         var maxPropField = root.Q<IntegerField>("maxPropField");
         var minMaxSlider = root.Q<MinMaxSlider>("minMaxSlider");
-        var maxEnemiesPropField = root.Q<PropertyField>("maxEnemiesPropField");
-        var spawnIntervalPropField = root.Q<PropertyField>("spawnIntervalPropField");
 
         //progress bar element, and element that renders the bar of the progress bar
         var progressBar = root.Q<ProgressBar>("spawnerTotalLoad");
         var progressFill = progressBar.Q<VisualElement>(className: "unity-progress-bar__progress");
 
+        UpdateProgressBar(spawner.CurrentEnemyCount);
+        spawner.OnEnemyCountChanged += UpdateProgressBar;
+
         //removing premade labels
         minPropField.label = "";
         maxPropField.label = "";
 
-        //get values from prop fields
+        //get spawn distance limits
         var minProp = serializedObject.FindProperty("minSpawnDistance");
         var maxProp = serializedObject.FindProperty("maxSpawnDistance");
-        var maxEnemiesProp = serializedObject.FindProperty("maxEnemies");
-        var spawnIntervalProp = serializedObject.FindProperty("spawnInterval");
 
-        //bind values to min and max prop fields
+        //bind to prop fields
         minPropField.BindProperty(minProp);
         maxPropField.BindProperty(maxProp);
 
-        //updates progress bar
-        UpdateProgressBar(spawner.CurrentEnemyCount);
-        spawner.OnEnemyCountChanged += UpdateProgressBar;
-
-        //fallback for spawn distances
+        //fallback
         var levelMax = 10;
 
         var levelEditor = FindFirstObjectByType<LevelEditor>();
@@ -80,19 +75,16 @@ public class EnemySpawnerEditor : Editor
             serializedObject.ApplyModifiedProperties();
         });
 
-        //setting up fields
-        SetupMinMaxField(minPropField);
-        SetupMinMaxField(maxPropField);
-        SetupMaxEnemiesField(maxEnemiesPropField, maxEnemiesProp);
-        SetupSpawnInterval(spawnIntervalPropField, spawnIntervalProp);
+        SetupField(minPropField);
+        SetupField(maxPropField);
 
         progressBar.lowValue = 0;
-        progressBar.highValue = maxEnemiesProp.intValue;
+        progressBar.highValue = spawner.maxEnemies;
 
         return root;
 
         //when props are not focused anymore, update their value if illegal
-        void SetupMinMaxField(IntegerField field)
+        void SetupField(IntegerField field)
         {
             field.RegisterCallback<BlurEvent>(evt =>
             {
@@ -108,77 +100,10 @@ public class EnemySpawnerEditor : Editor
             });
         }
 
-        void SetupMaxEnemiesField(PropertyField field, SerializedProperty property)
-        {
-            field.RegisterCallback<GeometryChangedEvent>(evt =>
-            {
-                var intField = field.Q<IntegerField>();
-
-                intField.UnregisterCallback<BlurEvent>(OnBlur);
-                intField.UnregisterCallback<KeyDownEvent>(OnKeyDown);
-
-                intField.RegisterCallback<BlurEvent>(OnBlur);
-                intField.RegisterCallback<KeyDownEvent>(OnKeyDown);
-                return;
-
-                void OnBlur(BlurEvent e)
-                {
-                    ApplyMaxEnemiesClamp(property);
-                    UpdateProgressBarHighValue();
-                    UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
-                }
-
-                void OnKeyDown(KeyDownEvent e)
-                {
-                    if (e.keyCode is not (KeyCode.Return or KeyCode.KeypadEnter)) return;
-                    ApplyMaxEnemiesClamp(property);
-                    UpdateProgressBarHighValue();
-                    UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
-                }
-            });
-        }
-
-        void SetupSpawnInterval(PropertyField field, SerializedProperty property)
-        {
-            field.RegisterCallback<GeometryChangedEvent>(evt =>
-            {
-                var floatField = field.Q<FloatField>();
-
-                floatField.UnregisterCallback<BlurEvent>(OnBlur);
-                floatField.UnregisterCallback<KeyDownEvent>(OnKeyDown);
-
-                floatField.RegisterCallback<BlurEvent>(OnBlur);
-                floatField.RegisterCallback<KeyDownEvent>(OnKeyDown);
-                return;
-
-                void OnBlur(BlurEvent e)
-                {
-                    ApplySpawnIntervalClamp(property);
-                    UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
-                }
-
-                void OnKeyDown(KeyDownEvent e)
-                {
-                    ApplySpawnIntervalClamp(property);
-                    UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
-                }
-            });
-        }
-
-        void UpdateProgressBarHighValue()
-        {
-            serializedObject.Update();
-            progressBar.highValue = maxEnemiesProp.intValue;
-
-            UpdateProgressBar(spawner.CurrentEnemyCount);
-        }
-
         //updates values of progress bar and color accordingly
         void UpdateProgressBar(int count)
         {
-            serializedObject.Update();
-
-            float max = maxEnemiesProp.intValue;
+            float max = spawner.maxEnemies;
             var modifier = count / max;
 
             progressBar.value = count;
@@ -224,34 +149,6 @@ public class EnemySpawnerEditor : Editor
         slider.SetValueWithoutNotify(new Vector2(min, max));
         minPropField.SetValueWithoutNotify(min);
         maxPropField.SetValueWithoutNotify(max);
-
-        serializedObject.ApplyModifiedProperties();
-    }
-
-    //limits values of maxEnemies field
-    private void ApplyMaxEnemiesClamp(SerializedProperty maxEnemiesProp)
-    {
-        serializedObject.Update();
-
-        var maxEnemies = maxEnemiesProp.intValue;
-
-        if (maxEnemies < 1) maxEnemies = 1;
-
-        maxEnemiesProp.intValue = maxEnemies;
-
-        serializedObject.ApplyModifiedProperties();
-    }
-
-    //limits values of spawnInterval field
-    private void ApplySpawnIntervalClamp(SerializedProperty spawnIntervalProp)
-    {
-        serializedObject.Update();
-
-        var spawnInterval = spawnIntervalProp.floatValue;
-
-        if (spawnInterval < 0.001f) spawnInterval = 0.001f;
-
-        spawnIntervalProp.floatValue = spawnInterval;
 
         serializedObject.ApplyModifiedProperties();
     }

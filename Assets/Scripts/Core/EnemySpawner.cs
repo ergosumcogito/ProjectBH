@@ -4,26 +4,26 @@ using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    public GameObject enemyPrefab;
 
-    [SerializeField] private int maxEnemies = 15;
-    [SerializeField] private float spawnInterval = 0.5f;
+    public int maxEnemies = 15;
+    public float spawnInterval = 0.5f;
     public event System.Action<int> OnEnemyCountChanged;
 
-    [SerializeField] private int minSpawnDistance = 3;
-    [SerializeField] private int maxSpawnDistance = 7;
+    public int minSpawnDistance = 3;
+    public int maxSpawnDistance = 7;
 
     private Transform _player;
     private LevelEditor _levelEditor;
-    private int LevelWidth => _levelEditor.Width - 1;
-    private int LevelHeight => _levelEditor.Length - 1;
+    private float LevelWidth => _levelEditor.Width - 1;
+    private float LevelHeight => _levelEditor.Length - 1;
 
     private float _spawnTimer;
     private bool _isSpawning;
 
     private readonly List<GameObject> _activeEnemies = new();
-    
-       
+
+
     public int CurrentEnemyCount => _activeEnemies.Count(e => e != null);
 
     private void Update()
