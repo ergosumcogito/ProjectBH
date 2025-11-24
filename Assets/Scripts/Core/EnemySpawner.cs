@@ -4,31 +4,56 @@ using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    [SerializeField] private GameObject enemyPrefab;
 
-    public int maxEnemies = 15;
-    public float spawnInterval = 0.5f;
+    [SerializeField] private int maxEnemies = 15;
+    [SerializeField] private float spawnInterval = 0.5f;
     public event System.Action<int> OnEnemyCountChanged;
 
-    public int minSpawnDistance = 3;
-    public int maxSpawnDistance = 7;
+    [SerializeField] private int minSpawnDistance = 3;
+    [SerializeField] private int maxSpawnDistance = 7;
 
     private Transform _player;
     private LevelEditor _levelEditor;
-    private float LevelWidth => _levelEditor.Width - 1;
-    private float LevelHeight => _levelEditor.Length - 1;
+    private int LevelWidth => _levelEditor.Width - 1;
+    private int LevelHeight => _levelEditor.Length - 1;
 
     private float _spawnTimer;
     private bool _isSpawning;
 
     private readonly List<GameObject> _activeEnemies = new();
-    public int CurrentEnemyCount => _activeEnemies.Count(e => e != null);
 
-    //automatic start; for testing purposes, only temporary
-    private void Start()
+    public int MaxEnemies
     {
-        StartSpawning();
+        get => maxEnemies;
+        set => maxEnemies = Mathf.Max(1, value);
     }
+
+    public float SpawnInterval
+    {
+        get => spawnInterval;
+        set => spawnInterval = Mathf.Max(0.01f, value);
+    }
+
+    private int LevelMax => Mathf.Min(LevelWidth, LevelHeight);
+
+    public int MinSpawnDistance
+    {
+        get => minSpawnDistance;
+        set
+        {
+            minSpawnDistance = Mathf.Clamp(value, 1, LevelMax - 1);
+            if (maxSpawnDistance <= minSpawnDistance) maxSpawnDistance = minSpawnDistance + 1;
+        }
+    }
+
+    public int MaxSpawnDistance
+    {
+        get => maxSpawnDistance;
+        set { maxSpawnDistance = Mathf.Clamp(value, minSpawnDistance + 1, LevelMax); }
+    }
+
+    public int CurrentEnemyCount => _activeEnemies.Count(e => e != null);
 
     private void Update()
     {
@@ -120,7 +145,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         _activeEnemies.Clear();
-        
+
         OnEnemyCountChanged?.Invoke(CurrentEnemyCount);
     }
 }
