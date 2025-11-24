@@ -6,12 +6,24 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
 
-    public int maxEnemies = 15;
-    public float spawnInterval = 0.5f;
+    [SerializeField] private int maxEnemies = 15;
+    [SerializeField] private float spawnInterval = 0.5f;
     public event System.Action<int> OnEnemyCountChanged;
 
-    public int minSpawnDistance = 3;
-    public int maxSpawnDistance = 7;
+    [SerializeField] private int minSpawnDistance = 3;
+    [SerializeField] private int maxSpawnDistance = 7;
+
+    public int MaxEnemies
+    {
+        get => maxEnemies;
+        set => maxEnemies = Mathf.Max(1, value);
+    }
+
+    public float SpawnInterval
+    {
+        get => spawnInterval;
+        set => spawnInterval = Mathf.Max(0.001f, value);
+    }
 
     private Transform _player;
     private LevelEditor _levelEditor;
