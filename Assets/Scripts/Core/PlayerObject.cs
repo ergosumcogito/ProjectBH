@@ -6,6 +6,12 @@ public class PlayerObject : MonoBehaviour
 
     private const float MaxHealth = 100f;
     private float _health = MaxHealth;
+    private bool _isDead = false;
+
+    public bool IsDead
+    {
+        get => _isDead;
+    }
 
     public float PlayerHealth
     {
@@ -43,5 +49,7 @@ public class PlayerObject : MonoBehaviour
     {
         Destroy(playerPrefab.gameObject, 1.5f);
         Debug.Log("Player died");
+        _isDead = true;
+        //make sure to add player reference in chase -> stop chase after player died
     }
 }
