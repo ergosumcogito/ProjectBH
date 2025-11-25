@@ -16,6 +16,7 @@ public class EnemySpawnerEditor : Editor
         visualTree.CloneTree(root);
 
         //initializing elements
+        var enemyPrefabsPropField = root.Q<PropertyField>("enemyPrefabsPropField");
         var minPropField = root.Q<IntegerField>("minPropField");
         var maxPropField = root.Q<IntegerField>("maxPropField");
         var minMaxSlider = root.Q<MinMaxSlider>("minMaxSlider");
@@ -31,6 +32,7 @@ public class EnemySpawnerEditor : Editor
         maxPropField.label = "";
 
         //get values from prop fields
+        var enemyPrefabsProp = serializedObject.FindProperty("enemyPrefabs");
         var minProp = serializedObject.FindProperty("minSpawnDistance");
         var maxProp = serializedObject.FindProperty("maxSpawnDistance");
         var maxEnemiesProp = serializedObject.FindProperty("maxEnemies");
@@ -42,6 +44,7 @@ public class EnemySpawnerEditor : Editor
         //bind to prop fields
         minPropField.BindProperty(minProp);
         maxPropField.BindProperty(maxProp);
+        enemyPrefabsPropField.BindProperty(enemyPrefabsProp);
 
         //fallback in case Level fails to load correctly
         var levelMax = 10;
