@@ -8,6 +8,10 @@ namespace Core.Enemy_Logic
     {
         protected EnemyStateManager stateManager;
         
+        // new code
+        public Rigidbody2D rb;
+        public Vector2 MovementDirection;
+        
         // Stats must be implemented by the children classes - attributes loaded with default values
         [Header("Base Stats")] 
         
@@ -30,6 +34,7 @@ namespace Core.Enemy_Logic
         
         protected virtual void Awake()
         {
+            rb = GetComponent<Rigidbody2D>(); //new
             stateManager = GetComponent<EnemyStateManager>(); // get the current child instance of enemy
             currentHealth = MaxHealth;
 
@@ -109,6 +114,11 @@ namespace Core.Enemy_Logic
         playerObjectPlayerObject.TakeDamage(AttackPower);
         }
         
+}
+
+void FixedUpdate()
+{
+    rb.MovePosition(rb.position + MovementDirection * moveSpeed*Time.fixedDeltaTime);
 }
 } }
     

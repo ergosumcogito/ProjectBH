@@ -26,8 +26,9 @@ namespace Core.Enemy_Logic
             // Calculate the direction from the enemy to the player
             Vector2 direction= (enemy.Player.position - enemy.transform.position).normalized;
             // Move the enemy toward the player
-            
-            enemy.transform.position += (Vector3)(direction * enemy.moveSpeed * Time.deltaTime);
+            //enemy.transform.position += (Vector3)(direction * enemy.moveSpeed * Time.deltaTime);
+            //new approach
+            enemy.MovementDirection = direction; 
         }
 
         public override void OnCollisionEnter(EnemyStateManager manager,EnemyAbstract enemy)
