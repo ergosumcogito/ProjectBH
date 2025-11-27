@@ -1,20 +1,26 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+namespace Core
 {
-    public PlayerData playerData;  
-
-    void Start()
+    public class PlayerHealth : MonoBehaviour
     {
-        playerData.currentHealth = playerData.maxHealth;
-    }
+        public PlayerData playerData;
 
-    public void TakeDamage(float amount)
-    {
-        float health = playerData.currentHealth;
-        health -= amount;
-        playerData.currentHealth = health;
-        Debug.Log("Damage has beend taken Amount: " + amount + " Health left: " + health);
-        if (health <= 0f) { Destroy(gameObject); }        
+        void Start()
+        {
+            playerData.currentHealth = playerData.maxHealth;
+        }
+
+        public void TakeDamage(float amount)
+        {
+            float health = playerData.currentHealth;
+            health -= amount;
+            playerData.currentHealth = health;
+            Debug.Log("Damage has beend taken Amount: " + amount + " Health left: " + health);
+            if (health <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
