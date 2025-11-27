@@ -2,23 +2,17 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
-    [Header("Runtime Stats")]
-    protected float baseCritChance;
-    protected float baseDamage;
-    protected float baseAttackRange;
-    protected float baseAttackSpeed;
+    protected WeaponStats weaponConfig;
+
+    [HideInInspector] public float baseCritChance;
+    [HideInInspector] public float baseDamage;
+    [HideInInspector] public float baseAttackRange;
+    [HideInInspector] public float baseAttackSpeed;
 
     protected float attackCooldown;
     protected AutoAim autoAim;
 
-    public string weaponName;
-
-    [Header("Config Reference")]
-    public WeaponsData weaponsData;
-
-    protected WeaponStats weaponConfig;
-
-    // TODO Temporary player stats placeholder
+    // Temporary player stats
     protected float playerRangedDamage = 10f;
     protected float playerAttackSpeed = 1f;
     protected float playerAttackRange = 4f;
@@ -27,15 +21,11 @@ public abstract class WeaponBase : MonoBehaviour
     protected virtual void Awake()
     {
         autoAim = GetComponentInParent<AutoAim>();
+    }
 
-        weaponConfig = weaponsData.GetWeaponByName(weaponName);
-
-        if (weaponConfig == null)
-        {
-            Debug.LogError($"Weapon {weaponName} not found in WeaponsData!");
-            return;
-        }
-
+    public virtual void Init(WeaponStats stats)
+    {
+        weaponConfig = stats;
         ApplyStats();
     }
 
@@ -60,16 +50,9 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected void ApplyStats()
     {
-        // Base damage derived from player stats and weapon scaling
-        baseDamage = playerRangedDamage * weaponConfig.rangedDamageScale;
-
-        // Attack speed
-        baseAttackSpeed = playerAttackSpeed * weaponConfig.attackSpeedScale;
-
-        // Range
-        baseAttackRange = playerAttackRange * weaponConfig.attackRangeScale;
-
-        // Crit chance
-        baseCritChance = playerCritChance * weaponConfig.critChanceScale;
+        baseDamage       = playerRangedDamage * weaponConfig.rangedDamageScale;
+        baseAttackSpeed  = playerAttackSpeed * weaponConfig.attackSpeedScale;
+        baseAttackRange  = playerAttackRange * weaponConfig.attackRangeScale;
+        baseCritChance   = playerCritChance * weaponConfig.critChanceScale;
     }
 }

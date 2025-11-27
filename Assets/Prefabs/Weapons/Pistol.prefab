@@ -96,7 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8091134427038332703}
-  - component: {fileID: 7445538105601797612}
+  - component: {fileID: 1175510827900212328}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -120,7 +120,7 @@ Transform:
   - {fileID: 5240151074390036525}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7445538105601797612
+--- !u!114 &1175510827900212328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,5 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3413d6268415aba4d9bb9e97deb00c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Pistol
-  weaponsData: {fileID: 11400000, guid: aa33bf2a2c5eb304a8d16f5ec97f6bca, type: 2}
+  baseCritChance: 0
+  baseDamage: 0
+  baseAttackRange: 0
+  baseAttackSpeed: 0

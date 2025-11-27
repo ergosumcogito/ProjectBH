@@ -15,8 +15,8 @@ MonoBehaviour:
   allWeapons:
   - weaponName: Pistol
     meleeDamageScale: 0
-    rangedDamageScale: 10
-    attackSpeedScale: 1.2
+    rangedDamageScale: 5
+    attackSpeedScale: 1
     attackRangeScale: 1
     critChanceScale: 1
     projectilePrefab: {fileID: 3644634842951350145, guid: 20cd1d3f435c57143be655691673220a, type: 3}

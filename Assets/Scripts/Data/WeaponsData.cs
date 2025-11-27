@@ -26,7 +26,8 @@ public class WeaponsData : ScriptableObject
     {
         foreach (var w in allWeapons)
         {
-            if (w.weaponName == weaponName) return w;
+            if (w.weaponName == weaponName)
+                return w;
         }
         return null;
     }
