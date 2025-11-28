@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
 
+// --------------------
 // --- Round Events ---
+// --------------------
 // Stores events
-// Allows subscription to event without dependency on RoundSystem
+// Allows subscription to event independently fromRoundSystem
 
 public static class RoundEvents
 {

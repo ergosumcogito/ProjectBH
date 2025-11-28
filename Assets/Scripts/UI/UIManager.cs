@@ -1,6 +1,8 @@
 using UnityEngine;
 
+// ------------------
 // --- UI Manager ---
+// ------------------
 // Switches UI
 // Handles buttons callbacks (direct clicks on buttons like "Play")
 
