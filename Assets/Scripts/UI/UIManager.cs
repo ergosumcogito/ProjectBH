@@ -1,5 +1,9 @@
 using UnityEngine;
 
+// --- UI Manager ---
+// Switches UI
+// Handles buttons callbacks (direct clicks on buttons like "Play")
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;

@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// --- Game State Machine ---
+// Handles game global states: main menu, gameplay, shop
+// All game states must be switched using this class
+
 public enum GameStateType
 {
     MainMenu,

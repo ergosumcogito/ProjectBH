@@ -1,6 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
+// --- Round System ---
+// Handles the state of the round
+
+
 public enum RoundState
 {
     Inactive,

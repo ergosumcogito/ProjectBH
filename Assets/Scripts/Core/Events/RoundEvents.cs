@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+// --- Round Events ---
+// Stores events
+// Allows subscription to event without dependency on RoundSystem
+
 public static class RoundEvents
 {
     public static Action<float> OnRoundStart;
