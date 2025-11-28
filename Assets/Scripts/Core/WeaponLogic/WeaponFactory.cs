@@ -4,7 +4,7 @@ public class WeaponFactory : MonoBehaviour
 {
     public WeaponsData weaponsData;
     public WeaponPrefabsConfig prefabsConfig;
-    public Transform weaponSlot;
+    [HideInInspector] public Transform weaponSlot;
 
     public WeaponBase CreateWeapon(string weaponName)
     {
