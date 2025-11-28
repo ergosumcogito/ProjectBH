@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5392756334445644803}
+  playerHealth: {fileID: 638479583511081811}
 --- !u!61 &6918572782293118821
 BoxCollider2D:
   m_ObjectHideFlags: 0

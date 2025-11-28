@@ -11,10 +11,7 @@ public class PlayerData : ScriptableObject
 
     [SerializeField] private float _maxHealth = 100f;
     public float maxHealth { get { return _maxHealth; } set { _maxHealth = value; } }
-
-    [SerializeField] private float _currentHealth;
-    public float currentHealth { get { return _currentHealth; } set { if (value > maxHealth) { _currentHealth = maxHealth; } else { _currentHealth = Mathf.Max(value, 0); } } }
-
+    
     [SerializeField] private int _lvl = 1;
     public int lvl { get { return _lvl; } set { _lvl = value; } }
 
