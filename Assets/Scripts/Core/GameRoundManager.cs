@@ -5,6 +5,10 @@ public class GameRoundManager : MonoBehaviour
     [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private PlayerSpawn playerSpawner;
     [SerializeField] private EnemySpawner enemySpawner;
+    
+    // TODO testing weapons
+    [SerializeField] private WeaponFactory weaponFactory;
+
 
     private GameObject playerInstance;
 
@@ -26,6 +30,13 @@ public class GameRoundManager : MonoBehaviour
         levelEditor.GenerateLevel();
 
         playerInstance = playerSpawner.SpawnPlayer();
+        
+        // -----------------------------
+        // TEST: give player a pistol
+        // -----------------------------
+        weaponFactory.weaponSlot = playerInstance.transform.Find("WeaponSlot");
+        weaponFactory.CreateWeapon("Pistol");
+        // -----------------------------
 
         enemySpawner.ClearEnemies();
         enemySpawner.StartSpawning();
