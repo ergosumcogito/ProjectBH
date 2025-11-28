@@ -12,7 +12,7 @@ public abstract class WeaponBase : MonoBehaviour
     protected float attackCooldown;
     protected AutoAim autoAim;
 
-    // Temporary player stats
+    // TODO Temporary player stats
     protected float playerRangedDamage = 10f;
     protected float playerAttackSpeed = 1f;
     protected float playerAttackRange = 4f;
@@ -54,5 +54,20 @@ public abstract class WeaponBase : MonoBehaviour
         baseAttackSpeed  = playerAttackSpeed * weaponConfig.attackSpeedScale;
         baseAttackRange  = playerAttackRange * weaponConfig.attackRangeScale;
         baseCritChance   = playerCritChance * weaponConfig.critChanceScale;
+    }
+    
+    
+    // Base method for damage calculation, can be overriden
+    public virtual float CalculateDamage()
+    {
+        float dmg = baseDamage;
+        return CalculateCrit(dmg);
+    }
+    
+    // Base method for crit calculation, can be overriden
+    public virtual float CalculateCrit(float damage)
+    {
+        bool isCrit = Random.value < baseCritChance;
+        return isCrit ? damage * 2f : damage;
     }
 }

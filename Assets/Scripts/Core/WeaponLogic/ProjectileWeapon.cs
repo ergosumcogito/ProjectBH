@@ -17,6 +17,8 @@ public class ProjectileWeapon : WeaponBase
     {
         Vector3 dir = (target.position - transform.position).normalized;
 
+        float finalDamage = CalculateDamage();
+        
         GameObject projGO = Instantiate(
             projectilePrefab,
             transform.position,
@@ -24,6 +26,6 @@ public class ProjectileWeapon : WeaponBase
         );
 
         Projectile proj = projGO.GetComponent<Projectile>();
-        proj.Init(dir, projectileSpeed, baseDamage, baseCritChance);
+        proj.Init(dir, projectileSpeed, finalDamage);
     }
 }

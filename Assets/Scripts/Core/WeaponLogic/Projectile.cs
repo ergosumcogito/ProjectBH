@@ -8,12 +8,11 @@ public class Projectile : MonoBehaviour
     private float critChance;
     private Vector3 direction;
 
-    public void Init(Vector3 dir, float speed, float damage, float critChance)
+    public void Init(Vector3 dir, float speed, float damage)
     {
         this.direction = dir;
         this.speed = speed;
         this.damage = damage;
-        this.critChance = critChance;
     }
 
     void Update()
@@ -25,13 +24,8 @@ public class Projectile : MonoBehaviour
     {
         EnemyAbstract enemy = collision.GetComponent<EnemyAbstract>();
         if (enemy == null) return;
-
-        float finalDamage = damage;
-
-        if (Random.value < critChance)
-            finalDamage *= 2f;
-
-        enemy.TakeDamage(finalDamage);
+        
+        enemy.TakeDamage(damage);
         Destroy(gameObject);
     }
 
