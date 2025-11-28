@@ -1,6 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
+// --------------------
+// --- Round System ---
+// --------------------
+// Handles the state of the round
+// Manages round timer
+// Notifies everyone about round state
+
+
 public enum RoundState
 {
     Inactive,
