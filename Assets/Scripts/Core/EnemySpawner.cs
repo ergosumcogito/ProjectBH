@@ -4,7 +4,7 @@ using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    [SerializeField] private List<GameObject> enemyPrefabs;
 
     [SerializeField] private int maxEnemies = 15;
     [SerializeField] private float spawnInterval = 0.5f;
@@ -65,11 +65,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (!enemyPrefab) return;
+        if (enemyPrefabs == null || enemyPrefabs.Count == 0) return;
 
         var spawnPos = GetSpawnPoint(_player.position);
 
-        var enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        var prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
+
+        var enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
         _activeEnemies.Add(enemy);
 
         OnEnemyCountChanged?.Invoke(CurrentEnemyCount);
