@@ -237,7 +237,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   MovementDirection: {x: 0, y: 0}
   playerObjectPlayerObject: {fileID: 0}
-  cyclopsMoveSpeed: 4
+  cyclopsMoveSpeed: 2
   cyclopsAttackPower: 50
   cyclopsMaxHealth: 90
 --- !u!61 &8880578546922711300

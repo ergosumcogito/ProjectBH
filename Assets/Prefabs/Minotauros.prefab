@@ -460,9 +460,9 @@ MonoBehaviour:
   rb: {fileID: 0}
   MovementDirection: {x: 0, y: 0}
   playerObjectPlayerObject: {fileID: 0}
-  minotaurosMoveSpeed: 3
-  minotaurosAttackPower: 25
-  minotaurosMaxHealth: 70
+  minotaurosMoveSpeed: 4
+  minotaurosAttackPower: 10
+  minotaurosMaxHealth: 20
 --- !u!1 &4187779122252482496
 GameObject:
   m_ObjectHideFlags: 0
