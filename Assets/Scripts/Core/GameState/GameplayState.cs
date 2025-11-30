@@ -15,7 +15,7 @@ public class GameplayState : GameState
         UIManager.Instance.ShowGameplayHUD(true);
 
         RoundEvents.OnRoundSurvived += HandleRoundEnd;
-        RoundEvents.OnRoundFailed   += HandleRoundEnd;
+        RoundEvents.OnRoundFailed   += HandleRoundFailed;
 
         _round.StartRound();
     }
@@ -25,11 +25,16 @@ public class GameplayState : GameState
         UIManager.Instance.ShowGameplayHUD(false);
 
         RoundEvents.OnRoundSurvived -= HandleRoundEnd;
-        RoundEvents.OnRoundFailed   -= HandleRoundEnd;
+        RoundEvents.OnRoundFailed   -= HandleRoundFailed;
     }
 
     private void HandleRoundEnd()
     {
         machine.ChangeState(GameStateType.Shop);
+    }
+
+    private void HandleRoundFailed()
+    {
+        machine.ChangeState(GameStateType.GameOver);
     }
 }

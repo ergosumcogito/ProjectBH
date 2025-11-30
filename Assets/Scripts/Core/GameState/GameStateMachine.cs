@@ -11,7 +11,8 @@ public enum GameStateType
 {
     MainMenu,
     Gameplay,
-    Shop
+    Shop,
+    GameOver,
 }
 
 public class GameStateMachine : MonoBehaviour
@@ -32,7 +33,8 @@ public class GameStateMachine : MonoBehaviour
         {
             { GameStateType.MainMenu, new MainMenuState(this) },
             { GameStateType.Gameplay, new GameplayState(this, roundSystem) },
-            { GameStateType.Shop,     new ShopState(this) }
+            { GameStateType.Shop,     new ShopState(this) },
+            { GameStateType.GameOver, new GameOverState(this) }
         };
     }
 
