@@ -1,4 +1,5 @@
 using System.Collections;
+using Core;
 using UnityEngine;
 
 // --------------------
@@ -98,4 +99,15 @@ public class RoundSystem : MonoBehaviour
     {
         EndRound(false);
     }
+    
+    private void OnEnable()
+    {
+        RoundEvents.OnPlayerDied += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        RoundEvents.OnPlayerDied -= OnPlayerDeath;
+    }
+    
 }

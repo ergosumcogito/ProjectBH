@@ -13,6 +13,7 @@ public static class RoundEvents
     public static Action OnRoundEnd;
     public static Action OnRoundSurvived;
     public static Action OnRoundFailed;
+    public static Action OnPlayerDied;
 
     public static void Log(string message)
     {

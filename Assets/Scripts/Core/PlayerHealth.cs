@@ -10,7 +10,7 @@ namespace Core
         public float CurrentHealth { get; private set; }
         public float MaxHealth => playerData.maxHealth;
         public event Action<float> OnHealthChanged;
-
+        public event Action OnPlayerDied;
 
         
         void Start()
@@ -28,9 +28,8 @@ namespace Core
             
             if (CurrentHealth <= 0f)
             {
-                
-                // TODO check death logic
-               // Destroy(gameObject);
+                OnPlayerDied?.Invoke(); // Player died, notify everybody
+                RoundEvents.OnPlayerDied?.Invoke();
             }
         }
     }

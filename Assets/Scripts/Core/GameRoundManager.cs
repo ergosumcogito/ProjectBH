@@ -1,3 +1,4 @@
+using Core;
 using UnityEngine;
 
 // --------------------------
@@ -43,6 +44,9 @@ public class GameRoundManager : MonoBehaviour
 
         playerInstance = playerSpawner.SpawnPlayer();
         
+        var playerHealthLogic = playerInstance.GetComponent<PlayerHealth>();
+        playerHealthLogic.OnPlayerDied += HandlePlayerDeath;
+        
         // -----------------------------
         // TEST: give player a pistol
         // -----------------------------
@@ -56,10 +60,25 @@ public class GameRoundManager : MonoBehaviour
 
     private void HandleRoundEnd()
     {
+        CleanupRound();
+    }
+    
+    private void HandlePlayerDeath()
+    {
+        CleanupRound();
+    }
+    
+    private void CleanupRound()
+    {
         enemySpawner.StopSpawning();
         enemySpawner.ClearEnemies();
 
         if (playerInstance != null)
+        {
+            var health = playerInstance.GetComponent<PlayerHealth>();
+            health.OnPlayerDied -= HandlePlayerDeath;
             Destroy(playerInstance);
+        }
     }
+
 }

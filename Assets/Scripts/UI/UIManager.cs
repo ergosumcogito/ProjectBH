@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject gameplayHUD;
     public GameObject shop;
+    public GameObject gameOverScreen;
 
     private void Awake()
     {
@@ -23,6 +24,8 @@ public class UIManager : MonoBehaviour
     public void ShowMainMenu(bool value) => mainMenu.SetActive(value);
     public void ShowGameplayHUD(bool value) => gameplayHUD.SetActive(value);
     public void ShowShop(bool value) => shop.SetActive(value);
+    public void ShowGameOver(bool value) => gameOverScreen.SetActive(value);
+
 
     // BUTTON CALLBACKS
 
@@ -34,5 +37,10 @@ public class UIManager : MonoBehaviour
     public void OnNextRoundButton()
     {
         GameStateMachine.Instance.ChangeState(GameStateType.Gameplay);
+    }
+    
+    public void OnGameOverMainMenuButton()
+    {
+        GameStateMachine.Instance.ChangeState(GameStateType.MainMenu);
     }
 }
