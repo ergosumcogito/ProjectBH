@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2279715116377315854}
   - component: {fileID: 6644626996663085183}
   m_Layer: 5
-  m_Name: ShopTitle
+  m_Name: GameOverTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 1921725408770808510}
   - component: {fileID: 8137809898509161337}
   m_Layer: 5
-  m_Name: NextRoundButton
+  m_Name: MainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
