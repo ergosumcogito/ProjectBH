@@ -49,6 +49,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         _activeEnemies.RemoveAll(e => e == null);
+        OnEnemyCountChanged?.Invoke(CurrentEnemyCount);
 
         _spawnTimer += Time.deltaTime;
 
