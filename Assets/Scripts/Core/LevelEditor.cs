@@ -6,25 +6,35 @@ public class LevelEditor : MonoBehaviour
     [SerializeField] private int width = 10;
     [SerializeField] private int length = 10;
     [SerializeField] private float tileSize = 1f;
-
-
+    
     [Header("Tile Prefab")]
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject borderPrefab;
 
 
     [Header("Generation Options")]
-    [SerializeField] private bool generateOnStart = true;
+    [SerializeField] private bool generateOnStart = false;
 
-
+    public int Width => width;
+    public int Length => length;
+    
     private void Start()
     {
         if (generateOnStart)
             GenerateLevel();
     }
+    
+    // Despawning a level
+    public void ClearLevel()
+    {
+        foreach (Transform child in transform)
+            Destroy(child.gameObject);
+    }
 
     public void GenerateLevel()
     {
+        ClearLevel();
+        
         //Check if TilePrefab or BorderPrefab equals null
         if (tilePrefab == null || borderPrefab == null)
         {
