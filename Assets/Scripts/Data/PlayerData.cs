@@ -8,6 +8,9 @@ public class PlayerData : ScriptableObject
 
     [SerializeField] private float _attackSpeed = 1f;
     public float attackSpeed { get { return _attackSpeed; } set { _attackSpeed = value; } }
+    
+    [SerializeField] private float _attackRange = 5f;
+    public float attackRange { get => _attackRange; set => _attackRange = value; }
 
     [SerializeField] private float _maxHealth = 100f;
     public float maxHealth { get { return _maxHealth; } set { _maxHealth = value; } }
@@ -17,5 +20,5 @@ public class PlayerData : ScriptableObject
 
     [SerializeField] private int _exp = 0;
     public int exp { get { return _exp; } set { _exp = value; } }
-
+    
 }
