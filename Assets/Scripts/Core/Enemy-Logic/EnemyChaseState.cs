@@ -6,7 +6,7 @@ namespace Core.Enemy_Logic
     {
         public override void EnterState(EnemyStateManager manager,EnemyAbstract enemy)
         {
-          Debug.Log("Enemy started chasing the player");  
+         // Debug.Log("Enemy started chasing the player");  
         }
 
         public override void UpdateState(EnemyStateManager manager,EnemyAbstract enemy)
