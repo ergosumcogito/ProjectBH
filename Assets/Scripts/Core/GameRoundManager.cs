@@ -46,6 +46,7 @@ public class GameRoundManager : MonoBehaviour
         
         var playerHealthLogic = playerInstance.GetComponent<PlayerHealth>();
         playerHealthLogic.OnPlayerDied += HandlePlayerDeath;
+        playerHealthLogic.OnPlayerDied += () => RoundEvents.OnPlayerDied?.Invoke();
         
         // -----------------------------
         // TEST: give player a pistol

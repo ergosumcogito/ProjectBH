@@ -28,8 +28,7 @@ namespace Core
             
             if (CurrentHealth <= 0f)
             {
-                OnPlayerDied?.Invoke(); // Player died, notify everybody
-                RoundEvents.OnPlayerDied?.Invoke();
+                OnPlayerDied?.Invoke(); // other systems know that the Player is died
             }
         }
     }
