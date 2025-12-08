@@ -29,6 +29,7 @@ public class LevelEditor : MonoBehaviour
     {
         foreach (Transform child in transform)
             Destroy(child.gameObject);
+        Debug.Log("All Tiles destroyed");
     }
 
     public void GenerateLevel()
@@ -36,16 +37,14 @@ public class LevelEditor : MonoBehaviour
         ClearLevel();
         
         //Check if TilePrefab or BorderPrefab equals null
-        if (tilePrefab == null || borderPrefab == null)
+        if (!tilePrefab || !borderPrefab)
         {
             Debug.Log("TilePrefab or BorderPrefab is null");
-            return;
         }
         else
         {
             GenerateTiles();
             Debug.Log("Tiles generated");
-            return;
         } 
     }
 
@@ -63,13 +62,13 @@ public class LevelEditor : MonoBehaviour
                 if (x == -1 || x == width || y == -1 || y == length)
                 {
                     Vector3 pos = new Vector3(x * tileSize, y * tileSize, 0);
-                    GameObject tile = Instantiate(borderPrefab, pos, Quaternion.identity);
+                    GameObject tile = Instantiate(borderPrefab, pos, Quaternion.identity, transform);
                     tile.name = $"Border x={x}, y={y}";
                 }
                 else
                 {
                     Vector3 pos = new Vector3(x * tileSize, y * tileSize, 0);
-                    GameObject tile = Instantiate(tilePrefab, pos, Quaternion.identity);
+                    GameObject tile = Instantiate(tilePrefab, pos, Quaternion.identity, transform);
                     tile.name = $"Tile x={x}, y={y}";
                 }
             }
