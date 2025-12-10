@@ -8,7 +8,7 @@ public class WeaponFactory : MonoBehaviour
 
     public WeaponBase CreateWeapon(string weaponName)
     {
-        WeaponStats stats = weaponsData.GetWeaponByName(weaponName);
+        WeaponData stats = weaponsData.GetWeaponByName(weaponName);
         if (stats == null)
         {
             Debug.LogError("Weapon stats not found: " + weaponName);

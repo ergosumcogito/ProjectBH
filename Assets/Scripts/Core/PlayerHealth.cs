@@ -22,14 +22,13 @@ namespace Core
         public void TakeDamage(float amount)
         {
             CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
-            Debug.Log("Damage has beend taken Amount: " + amount + " Health left: " + CurrentHealth);
+            Debug.Log("Damage has been taken Amount: " + amount + " Health left: " + CurrentHealth);
             
             OnHealthChanged?.Invoke(CurrentHealth);
             
             if (CurrentHealth <= 0f)
             {
-                OnPlayerDied?.Invoke(); // Player died, notify everybody
-                RoundEvents.OnPlayerDied?.Invoke();
+                OnPlayerDied?.Invoke(); // other systems know that the Player is dead
             }
         }
     }
