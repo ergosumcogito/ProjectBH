@@ -5,13 +5,21 @@ using Core.Enemy_Logic;
 
 public class AutoAim : MonoBehaviour
 {
-    public float attackRange = 5f; // TODO: replace with attackRange from PlayerStats
+    
+    private PlayerRuntimeStats stats;
+
+    private float AttackRange => stats != null ? stats.FinalAttackRange : 5f;
+    
+    private void Awake()
+    {
+        stats = GetComponentInParent<PlayerRuntimeStats>();
+    }
     
     public Transform GetClosestEnemy()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(
             transform.position,
-            attackRange
+            AttackRange
         );
 
         EnemyAbstract closestEnemy = null;
@@ -37,6 +45,6 @@ public class AutoAim : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
     }
 }
