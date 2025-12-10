@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class WeaponStats
+public class WeaponData
 {
     public string weaponName;
 
@@ -20,9 +20,9 @@ public class WeaponStats
 [CreateAssetMenu(fileName = "WeaponsData", menuName = "Scriptable Objects/WeaponsData")]
 public class WeaponsData : ScriptableObject
 {
-    public WeaponStats[] allWeapons;
+    public WeaponData[] allWeapons;
     
-    public WeaponStats GetWeaponByName(string weaponName)
+    public WeaponData GetWeaponByName(string weaponName)
     {
         foreach (var w in allWeapons)
         {

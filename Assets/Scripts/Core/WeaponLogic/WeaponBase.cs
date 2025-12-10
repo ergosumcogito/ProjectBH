@@ -3,28 +3,29 @@ using UnityEngine;
 
 public abstract class WeaponBase : MonoBehaviour
 {
-    protected WeaponStats weaponConfig;
+    protected WeaponData weaponData;
 
     [HideInInspector] public float baseCritChance;
-    [HideInInspector] public float baseDamage;
+    [HideInInspector] public float baseMeleeDamage;
+    [HideInInspector] public float baseRangeDamage;
     [HideInInspector] public float baseAttackRange;
     [HideInInspector] public float baseAttackSpeed;
 
     protected float attackCooldown;
     protected AutoAim autoAim;
     
+    protected PlayerRuntimeStats playerStats;
+
+    
     protected SpriteRenderer sr;
     private Color originalColor;
-
-    // TODO Temporary player stats
-    protected float playerRangedDamage = 10f;
-    protected float playerAttackSpeed = 1f;
-    protected float playerAttackRange = 4f;
-    protected float playerCritChance = 0.05f; // 5% crit
-
+    
+    
     protected virtual void Awake()
     {
         autoAim = GetComponentInParent<AutoAim>();
+        playerStats = GetComponentInParent<PlayerRuntimeStats>();
+
         
         sr = GetComponent<SpriteRenderer>();
         if (sr == null)
@@ -34,9 +35,9 @@ public abstract class WeaponBase : MonoBehaviour
             originalColor = sr.color;
     }
 
-    public virtual void Init(WeaponStats stats)
+    public virtual void Init(WeaponData data)
     {
-        weaponConfig = stats;
+        weaponData = data;
         ApplyStats();
     }
 
@@ -61,17 +62,20 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected void ApplyStats()
     {
-        baseDamage       = playerRangedDamage * weaponConfig.rangedDamageScale;
-        baseAttackSpeed  = playerAttackSpeed * weaponConfig.attackSpeedScale;
-        baseAttackRange  = playerAttackRange * weaponConfig.attackRangeScale;
-        baseCritChance   = playerCritChance * weaponConfig.critChanceScale;
+        baseMeleeDamage =  playerStats.MeleeDamage * weaponData.meleeDamageScale;
+        baseRangeDamage =  playerStats.RangedDamage * weaponData.rangedDamageScale;
+        baseAttackSpeed  = playerStats.AttackSpeed * weaponData.attackSpeedScale;
+        baseAttackRange  = playerStats.AttackRange * weaponData.attackRangeScale;
+        baseCritChance   = playerStats.CritChance * weaponData.critChanceScale;
+        
+        playerStats.UpdateFinalAttackRange(baseAttackRange);
     }
     
     
     // Base method for damage calculation, can be overriden
     public virtual float CalculateDamage()
-    {
-        float dmg = baseDamage;
+    {                       
+        float dmg = baseRangeDamage > baseMeleeDamage ? baseRangeDamage : baseMeleeDamage;
         return CalculateCrit(dmg);
     }
     
@@ -80,10 +84,12 @@ public abstract class WeaponBase : MonoBehaviour
     {
         bool isCrit = Random.value < baseCritChance;
 
+        // x2 damage when crit, this is our base logic (Brotato also has x2 as base)
+        
         if (isCrit)
         {
             FlashCritColor();
-            return damage * 2f;
+            return damage * 2f; 
         }
 
         return damage;

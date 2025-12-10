@@ -5,10 +5,15 @@ using Core.Enemy_Logic;
 
 public class AutoAim : MonoBehaviour
 {
-    [Header("Player Data")]
-    [SerializeField] private PlayerData playerData; 
     
-    private float AttackRange => playerData != null ? playerData.attackRange : 5f;
+    private PlayerRuntimeStats stats;
+
+    private float AttackRange => stats != null ? stats.FinalAttackRange : 5f;
+    
+    private void Awake()
+    {
+        stats = GetComponentInParent<PlayerRuntimeStats>();
+    }
     
     public Transform GetClosestEnemy()
     {
