@@ -6,7 +6,7 @@ namespace Core.Enemy_Logic
     {
         [Header("Value for Coin")] protected int Value = -1; // value is being calculated by children class and set via setter
         
-        //reference to PlayerData
+        public PlayerData playerData;
         
 
         //Protected field should be visable for othe classes in the folder
@@ -21,8 +21,8 @@ namespace Core.Enemy_Logic
         {
             if (other.CompareTag("Player"))
             {
-                // TBD add money to player
-
+                playerData.coins += Value;
+                Debug.Log($"Coin Collected: {Value}. Player now has {playerData.coins} coins.");
                 Destroy(gameObject);
             }
         }
