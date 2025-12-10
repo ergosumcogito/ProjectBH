@@ -8,7 +8,7 @@ namespace Core.Enemy_Logic
         {
           //  Debug.Log("Enemy died");
             enemy.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
-            GameObject.Destroy(enemy.gameObject,0f);
+            GameObject.Destroy(enemy.gameObject,0.1f);
         }
 
         public override void UpdateState(EnemyStateManager manager,EnemyAbstract enemy)
